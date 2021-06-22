@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
       flex: 1,
       textAlign: 'center',
       fontSize: 15,
-      color: theme.colors.heading
+      color: theme.colors.heading,
+      fontFamily: theme.fonts.inter500
    }
 });
