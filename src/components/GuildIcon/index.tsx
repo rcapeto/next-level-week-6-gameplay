@@ -3,12 +3,16 @@ import { Image, StyleSheet } from 'react-native';
 
 import { theme } from '../../global/styles/theme';
 
-export default function GuildIcon() {
-   const uri = 'https://c0.klipartz.com/pngpicture/842/992/gratis-png-discord-ordenadores-servidores-teamspeak-discord-icon-thumbnail.png'
+interface GuildIconProps {
+   uri?: string;
+}
+
+export default function GuildIcon({ uri = '' }: GuildIconProps) {
+   const uriDefault = 'https://c0.klipartz.com/pngpicture/842/992/gratis-png-discord-ordenadores-servidores-teamspeak-discord-icon-thumbnail.png'
 
    return(
       <Image 
-         source={{ uri }}
+         source={{ uri: !uri ? uriDefault : uri }}
          style={styles.image}
          resizeMode="cover"
       />

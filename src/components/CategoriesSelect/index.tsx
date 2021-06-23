@@ -7,9 +7,10 @@ import { categories } from '../../utils/categories';
 type CategoriesSelectProps = {
    categorySelected: number;
    handleCategorieSelect: (id: number) => void;
+   hasCheckBox?: boolean;
 }
 
-export default function CategoriesSelect({ categorySelected, handleCategorieSelect }: CategoriesSelectProps) {
+export default function CategoriesSelect({ categorySelected, handleCategorieSelect, hasCheckBox = false }: CategoriesSelectProps) {
    return(
      <ScrollView 
       style={styles.container}
@@ -24,6 +25,7 @@ export default function CategoriesSelect({ categorySelected, handleCategorieSele
                key={category.identify} 
                checked={category.identify === categorySelected}
                onPress={() => handleCategorieSelect(category.identify)}
+               hasCheckBox={hasCheckBox}
             />
            ))
         }

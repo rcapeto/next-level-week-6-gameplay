@@ -7,18 +7,22 @@ import { styles } from './styles';
 
 type ButtonIconProps = RectButtonProps  & {
    text: string;
+   noIcon?: boolean;
 }
 
-export default function ButtonIcon({ text, ...rest }: ButtonIconProps) {
+export default function ButtonIcon({ text, noIcon = false, ...rest }: ButtonIconProps) {
    return(
       <RectButton style={styles.container} {...rest}>
-         <View style={styles.iconWrapper}>
-            <Image 
-               source={discordImg}
-               style={styles.icon}
-            />
-         </View>
-
+         {
+            noIcon ? null : (
+               <View style={styles.iconWrapper}>
+                  <Image 
+                     source={discordImg}
+                     style={styles.icon}
+                  />
+               </View>
+            )
+         }
          <Text style={styles.buttonText}>{text}</Text>
       </RectButton>
    );

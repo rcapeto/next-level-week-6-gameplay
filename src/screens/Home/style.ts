@@ -20,7 +20,6 @@ export const styles = StyleSheet.create({
       marginTop: 42,
    },
    listContainer: {
-      paddingHorizontal: 24,
-      marginTop: 25
+      padding: 24,
    }
 });
