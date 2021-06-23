@@ -2,16 +2,23 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 import { theme } from '../../global/styles/theme';
 
 export default function Profile() {
+   const navigation = useNavigation();
+
+   function handleNavigate() {
+      navigation.navigate('AppointmentCreate');
+   }
+
    return(
       <View style={styles.container}>
          <View style={styles.user}>
             <Image 
                style={styles.image}
-               source={{ uri: 'https://github.com/rcapeto.png '}}
+               source={{ uri: 'https://github.com/rcapeto.png'}}
                resizeMode="contain"
             />
 
@@ -25,7 +32,7 @@ export default function Profile() {
          </View>
 
 
-         <RectButton style={styles.button}>
+         <RectButton style={styles.button} onPress={handleNavigate}>
             <AntDesign name="plus" size={20} color={theme.colors.heading}/>
          </RectButton>
       </View>

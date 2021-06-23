@@ -12,9 +12,10 @@ type CategoryProps = RectButtonProps & {
    title: string;
    icon: React.FC<SvgProps>;
    checked?: boolean;
+   hasCheckBox?: boolean;
 }
 
-export default function Category({ icon: Icon, identify, title, checked,...rest }: CategoryProps) {
+export default function Category({ icon: Icon, identify, title, checked, hasCheckBox = false, ...rest }: CategoryProps) {
    return(
       <RectButton {...rest}>
          <LinearGradient 
@@ -22,7 +23,9 @@ export default function Category({ icon: Icon, identify, title, checked,...rest 
             colors={[theme.colors.secondary50, theme.colors.secondary70]}
          >
             <View style={[styles.content, { opacity: checked ? 1 : 0.4 }]}>
-               <View style={checked ? styles.checked : styles.check} />
+               {
+                  hasCheckBox && <View style={checked ? styles.checked : styles.check} />
+               }
                <Icon width={48} height={48} />
                <Text style={styles.title}>{title}</Text>
             </View>
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
       borderRadius: 3
    },
    title: {
-      fontFamily: theme.fonts.inter500,
+      fontFamily: theme.fonts.rajdhani700,
       color: theme.colors.heading,
       fontSize: 15
    }
