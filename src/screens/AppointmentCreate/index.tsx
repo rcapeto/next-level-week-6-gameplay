@@ -45,6 +45,18 @@ export default function AppointmentCreate() {
       setSelectedGuild(guild);
    }
 
+   function finishCreateAppointment() {
+      console.log({
+         day,
+         month,
+         hour,
+         minute,
+         categorySelected,
+         description,
+         selectedGuild
+      });
+   }
+
    return(
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
          <Background>
@@ -134,6 +146,7 @@ export default function AppointmentCreate() {
                      <ButtonIcon 
                         text="Agendar" 
                         noIcon 
+                        onPress={finishCreateAppointment}
                      />
                   </View>
                </ScrollView>
@@ -147,7 +160,6 @@ export default function AppointmentCreate() {
                   handleSelectGuild={handleSelectGuild}
                   closeModal={toggleModal}
                   selectedGuild={selectedGuild}
-
                />
             </CustomModal>
          </Background>

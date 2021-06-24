@@ -48,21 +48,20 @@ export default function Home() {
                   handleCategorieSelect={handleCategorieSelect}
                />
 
-               <View style={styles.content}>
+               <View style={styles.listHeader}>
                   <ListHeader title="Partidas Agendadas" subtitle={`${appointmentsFiltered.length}`}/>
-
-                  <FlatList 
-                     data={appointmentsFiltered}
-                     keyExtractor={item => item.id}
-                     renderItem={({ item }) => (
-                        <Appointment data={item} onPress={() => handleNavigate(item)} />
-                     )}
-                     contentContainerStyle={styles.listContainer}
-                     showsVerticalScrollIndicator={false}
-                     contentInset={{ bottom: 100 }}
-                  />
                </View>
             </View>
+
+            <FlatList 
+               data={appointmentsFiltered}
+               keyExtractor={item => item.id}
+               renderItem={({ item }) => (
+                  <Appointment data={item} onPress={() => handleNavigate(item)} />
+               )}
+               contentContainerStyle={styles.listContainer}
+               showsVerticalScrollIndicator={false}
+            />
          </View>
       </Background>
    );

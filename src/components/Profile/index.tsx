@@ -4,27 +4,31 @@ import { RectButton } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../hooks';
+
 import { theme } from '../../global/styles/theme';
 
 export default function Profile() {
    const navigation = useNavigation();
+   const { user } = useAuth();
 
    function handleNavigate() {
       navigation.navigate('AppointmentCreate');
    }
 
+   console.log(user?.avatar)
    return(
       <View style={styles.container}>
          <View style={styles.user}>
             <Image 
                style={styles.image}
-               source={{ uri: 'https://github.com/rcapeto.png'}}
+               source={{ uri: user?.avatar }}
                resizeMode="contain"
             />
 
             <View style={styles.text}>
                <Text style={styles.textHello}>
-                  Olá, <Text style={styles.name}>Raphael</Text>
+                  Olá, <Text style={styles.name}>{user?.firstName}</Text>
                </Text>
 
                <Text style={styles.message}>Hoje é dia de vitória</Text>

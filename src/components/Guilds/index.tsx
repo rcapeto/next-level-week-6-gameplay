@@ -37,6 +37,7 @@ export default function Guilds({ handleSelectGuild, closeModal, selectedGuild }:
             )}
             showsVerticalScrollIndicator={false}
             style={styles.guilds}
+            contentContainerStyle={{ paddingBottom: 25, paddingTop: 30 }}
          />
       </View>
    );
@@ -75,8 +76,6 @@ function GuildItem({ data, handleSelectGuild, closeModal, selectedGuild,...props
                size={24}
             />
          </View>
-         
-
       </TouchableOpacity>
    );
 }
