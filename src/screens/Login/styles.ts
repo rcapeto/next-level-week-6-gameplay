@@ -31,5 +31,13 @@ export const styles = StyleSheet.create({
       marginBottom: 64,
       lineHeight: 25,
       fontFamily: theme.fonts.inter400
+   },
+   fakeButton: {
+      backgroundColor: theme.colors.primary,
+      width: 240,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 8
    }
 });

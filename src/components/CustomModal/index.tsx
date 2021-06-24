@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { StyleSheet, Modal, ModalProps, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Modal, ModalProps, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
 import Background from '../Background';
 
@@ -15,19 +15,19 @@ export default function CustomModal({ children, closeModal ,...props}: CustomMod
       <Modal
          {...props}
          transparent
-         animationType="fade"
+         animationType="slide"
+         statusBarTranslucent //para cobrir toda a aplicação
       >
+      <TouchableWithoutFeedback onPress={closeModal}>
          <View style={styles.overlay}>
             <View style={styles.container}>
                <Background>
-                  <TouchableOpacity onPress={closeModal} style={{ height: 30 }}>
-                     <View style={styles.bar}/>
-                  </TouchableOpacity>
+                  <View style={styles.bar}/>
                   { children }
                </Background>
             </View>
          </View>
-
+      </TouchableWithoutFeedback>
       </Modal>
    );
 }
