@@ -1,14 +1,18 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Modal } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import { useAuth } from '../../hooks';
+
+import ProfileModal from '../ProfileModal';
 
 import { theme } from '../../global/styles/theme';
 
 export default function Profile() {
+   const [showModal, setShowModal] = useState<boolean>(true);
+
    const navigation = useNavigation();
    const { user } = useAuth();
 
@@ -16,16 +20,20 @@ export default function Profile() {
       navigation.navigate('AppointmentCreate');
    }
 
-   console.log(user?.avatar)
+   function toggleModal() {
+      setShowModal(!showModal);
+   }
+
    return(
       <View style={styles.container}>
          <View style={styles.user}>
-            <Image 
-               style={styles.image}
-               source={{ uri: user?.avatar }}
-               resizeMode="contain"
-            />
-
+            <RectButton onPress={toggleModal}>
+               <Image 
+                  style={styles.image}
+                  source={{ uri: user?.avatar }}
+                  resizeMode="contain"
+               />
+            </RectButton>
             <View style={styles.text}>
                <Text style={styles.textHello}>
                   Olá, <Text style={styles.name}>{user?.firstName}</Text>
@@ -39,6 +47,8 @@ export default function Profile() {
          <RectButton style={styles.button} onPress={handleNavigate}>
             <AntDesign name="plus" size={20} color={theme.colors.heading}/>
          </RectButton>
+
+         <ProfileModal visible={showModal} closeModal={toggleModal}/>
       </View>
    );
 }

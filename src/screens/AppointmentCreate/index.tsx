@@ -7,9 +7,12 @@ import {
    ScrollView, 
    KeyboardAvoidingView, 
    Platform,
+   Alert
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import Background from '../../components/Background';
 import Header from '../../components/Header';
@@ -22,6 +25,7 @@ import CustomModal from '../../components/CustomModal';
 
 import { theme } from '../../global/styles/theme';
 import { Guild } from '../../interface';
+import { COLLECTION_APPOINTMENTS } from '../../configs/database';
 
 export default function AppointmentCreate() {
    const [day, setDay] = useState<string>('');
@@ -32,6 +36,8 @@ export default function AppointmentCreate() {
    const [description, setDescription] = useState<string>('');
    const [showModal, setShowModal] = useState<boolean>(false);
    const [selectedGuild, setSelectedGuild] = useState<Guild | null>(null);
+
+   const navigation = useNavigation();
 
    function handleCategorieSelect(category_id: number) {
       categorySelected === category_id ? setCategorySelected(0) : setCategorySelected(category_id);
@@ -45,16 +51,34 @@ export default function AppointmentCreate() {
       setSelectedGuild(guild);
    }
 
-   function finishCreateAppointment() {
-      console.log({
-         day,
-         month,
-         hour,
-         minute,
-         categorySelected,
+   async function handleSave() {
+
+      if(
+         !day.trim() ||
+         !month.trim() ||
+         !hour.trim() ||
+         !minute.trim() ||
+         !selectedGuild || 
+         !categorySelected
+      ) {
+         Alert.alert('Gameplay', 'Por favor preencha os campos obrigatórios:\n\nDia, Mês, Hora, Minuto, Categoria e Servidor');
+         return;
+      }
+
+      const newAppointment = {
+         id: String(Date.now()),
+         guild: selectedGuild,
+         category: categorySelected,
+         date: `${day}/${month} às ${hour}/${minute}h`,
          description,
-         selectedGuild
-      });
+      }
+
+      const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+      const appointments = storage ? JSON.parse(storage) : [];
+
+      await AsyncStorage.setItem(COLLECTION_APPOINTMENTS, JSON.stringify([...appointments, newAppointment]));
+
+      navigation.navigate('Home');
    }
 
    return(
@@ -115,7 +139,7 @@ export default function AppointmentCreate() {
                            <Text style={styles.label}>Hora e minuto</Text>
                            <View style={styles.inputs}>
                               <InputSmall value={hour} onChangeText={setHour}/>
-                              <Text style={styles.inputSeparator}>/</Text>
+                              <Text style={styles.inputSeparator}>:</Text>
                               <InputSmall value={minute} onChangeText={setMinute}/>
                            </View>
                         </View>
@@ -146,7 +170,7 @@ export default function AppointmentCreate() {
                      <ButtonIcon 
                         text="Agendar" 
                         noIcon 
-                        onPress={finishCreateAppointment}
+                        onPress={handleSave}
                      />
                   </View>
                </ScrollView>
