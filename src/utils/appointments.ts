@@ -1,6 +1,6 @@
 import { Player } from '../interface'; 
 
-const players: Player[] = [
+export const players: Player[] = [
    {
       id: 1,
       username: 'Raphael Capeto',

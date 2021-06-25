@@ -11,7 +11,6 @@ export interface Appointment {
    category: number,
    date: string,
    description: string,
-   players: Player[]
 }
 
 export interface Player {
@@ -24,8 +23,11 @@ export interface Player {
 export interface Guild {
    id: string,
    name: string,
-   icon: null | string,
+   icon: string,
    owner: boolean,
+   features: string[],
+   permissions: number,
+   permissions_new: string,
 }
 
 export interface ChildrenProps {
@@ -47,6 +49,7 @@ export interface AuthContextProps {
    login: () => Promise<void>;
    authLoading: boolean;
    signed: boolean;
+   logout: () => Promise<void>;
 }
 
 export interface AuthSessionResponse {

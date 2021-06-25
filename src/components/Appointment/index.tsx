@@ -8,6 +8,7 @@ import CalendarSvg from '../../assets/calendar.svg';
 
 import { theme } from '../../global/styles/theme';
 import { categories } from '../../utils/categories';
+import { CDN_IMAGE } from '../../configs/discordAuth';
 
 type AppointmentProps = RectButtonProps & {
    data: Appointment;
@@ -24,17 +25,17 @@ export interface Appointment {
 interface GuildProps {
    id: string;
    name: string;
-   icon: null,
+   icon: null | string,
    owner: boolean;
 }
 
 export default function Appointment({ data, ...props }: AppointmentProps) {
    const [category] = categories.filter(category => category.identify === data.category);
-   const { name, owner } = data.guild;
+   const { name, owner, id, icon } = data.guild;
 
    return(
       <RectButton style={styles.container} {...props}>
-         <GuildIcon />
+         <GuildIcon uri={icon || ''}/>
 
          <View style={styles.content}>
             <View style={styles.header}>

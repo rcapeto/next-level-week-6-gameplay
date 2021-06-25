@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import GuildIcon from '../GuildIcon';
+import Loading from '../Loading';
 
 import { Guild } from '../../interface';
-import { guilds } from '../../utils/servers';
 import { theme } from '../../global/styles/theme';
+import { api } from '../../services/api';
+import { CDN_IMAGE } from '../../configs/discordAuth';
 
 export interface GuildItemProps extends TouchableOpacityProps{
    data: Guild;
@@ -22,6 +24,30 @@ export type GuildsProps = {
 }
 
 export default function Guilds({ handleSelectGuild, closeModal, selectedGuild }: GuildsProps) {
+   const [guilds, setGuilds] = useState<Guild[]>([]);
+   const [loading, setLoading] = useState(true);
+
+   async function getAllGuilds() {
+      try {
+         const { data } = await api.get('/users/@me/guilds');
+         setGuilds(data);
+
+      } catch(err) {
+         console.error({
+            error: err,
+            error_message: err.message
+         });
+      } finally {
+         setLoading(false);
+      }
+   }
+
+   useEffect(() => {
+      getAllGuilds();
+   }, []);
+
+   if(loading) return <Loading />
+
    return(
       <View style={styles.container}>
          <FlatList 
@@ -33,6 +59,7 @@ export default function Guilds({ handleSelectGuild, closeModal, selectedGuild }:
                   handleSelectGuild={handleSelectGuild}
                   closeModal={closeModal}
                   selectedGuild={selectedGuild}
+
                />
             )}
             showsVerticalScrollIndicator={false}
@@ -47,11 +74,10 @@ function GuildItem({ data, handleSelectGuild, closeModal, selectedGuild,...props
    const { icon, id, name, owner } = data;
 
    const sameGuild = selectedGuild && selectedGuild.id == id;
-
-   const currentIcon = icon ? icon: '';
+   const uriIcon = icon ? `${CDN_IMAGE}/icons/${id}/${icon}.png` : '';
 
    function handleSelect() {
-      handleSelectGuild(data);
+      handleSelectGuild({...data, icon: uriIcon });
       closeModal && closeModal();
    }
 
@@ -59,7 +85,7 @@ function GuildItem({ data, handleSelectGuild, closeModal, selectedGuild,...props
       <TouchableOpacity {...props} style={styles.guildItemContainer} onPress={handleSelect}>
 
          <View style={[styles.controlOpacity, sameGuild && { opacity: 0.6 }]}>
-            <GuildIcon uri={currentIcon}/>
+            <GuildIcon uri={uriIcon} />
 
             <View style={styles.content}>
                <View>

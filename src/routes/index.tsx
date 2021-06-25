@@ -5,7 +5,7 @@ import { useAuth } from '../hooks';
 
 import Login from '../screens/Login';
 
-import AuthRoutes from './auth.routes';
+import AppRoutes from './app.routes';
 
 export default function Routes() {
    const { signed } = useAuth();
@@ -13,7 +13,7 @@ export default function Routes() {
    return(
       <NavigationContainer>
          {
-            signed ? <AuthRoutes /> :  <Login />
+            signed ? <AppRoutes /> :  <Login />
          }
       </NavigationContainer>
    );
